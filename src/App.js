@@ -8,8 +8,8 @@ class App extends Component{
     this.state = {
       squares: [0, 0, 0, 0, 0, 0, 0, 0, 0],
       playerTurn: null,
-      xMoves: [],
-      oMoves: [],
+      xArray : []
+    
     }
   }
 
@@ -17,36 +17,93 @@ class App extends Component{
     const { squares, playerTurn } = this.state
     if(squares[index] === 0 && playerTurn !== null){
       squares[index] = playerTurn
-      playerTurn === "❌" ? this.oFirst() : this.xFirst()
+      playerTurn === "❌" ? this.oTurn() : this.xTurn()
     } 
     this.setState({squares: squares})
-    this.xTurn(index)
+    // this.xTurn(index)
   }
 
-
-
-
-  xFirst = () => {
+  xTurn = () => {
     this.setState({
       playerTurn: "❌"
     })
+    this.xIndex(this.state.squares)
   }
 
-  oFirst = () => {
+  oTurn = () => {
     this.setState({
       playerTurn: "⭕️"
     })
   }
 
   didWin = () => {
+    let winningLines =
+     [
+        [0,1,2],
+        [3,4,5],
+        [6,7,8],
+        [0,3,6],
+        [1,4,7],
+        [2,5,8],
+        [0,4,8],
+        [2,4,6]
+      ]
+      let xMoves = this.state.squares.filter((value, index) => {
+        return (index)
+      })
+    }
 
-  }
-  // Win conditions as indexes
-  // 0,1,2    3,4,5   6,7,8
-  // 0,3,6    1,4,7   2,5,8
-  //    0,4,8   2,4,6
+   
+    xIndex = (array) => {
+      let newArray = []
+      
+      for(let i=0; i<array.length; i++){
+        if(array[i] === "❌" ) {
+          newArray.push(i)
+        }   
+      }
+      this.setState({xArray : newArray})
+     
+    }
 
 
+    oIndex = (array) => {
+      let newArray = []
+      
+      for(let i=0; i<array.length; i++){
+        if(array[i] === "⭕️" ) {
+          newArray.push(i)
+        }
+        
+      }
+      this.setState({oArray : newArray})
+     
+    }
+
+
+    
+  //   for(let winnerLine in newArray ) {
+      
+  //     newArray[winnerLine].filter((lines) => {
+  //     if(
+  //       squares[lines[0]] === "" || 
+  //       squares[lines[1]] === "" || 
+  //       squares[lines[2]] === "" 
+  //     )
+  //     {
+  //       //do this -- nothing -- maybe??
+  //     } 
+  //     else if (
+  //       squares[lines[0]] === squares[lines[1]] &&
+  //       squares[lines[1]] === squares[lines[2]]
+  //     ) {
+  //       // match.. winner wins??
+  //     }
+  //   })
+
+  //  }
+
+  
   
   render(){
     return(
@@ -64,14 +121,14 @@ class App extends Component{
             )
           })}
 
-          <h1>xMoves{this.state.xMoves}</h1>
+          <h1>xMoves{this.state.xArray}</h1>
 
         </div>
           {this.state.playerTurn === null ? 
           (<div id="playerSelect">
           <h1>Who's going first?</h1>
-          <button onClick={this.xFirst}>X</button>
-          <button onClick={this.oFirst}>0</button>
+          <button onClick={this.xTurn}>X</button>
+          <button onClick={this.oTurn}>0</button>
           </div>) :
           null
           }
