@@ -27,7 +27,7 @@ class App extends Component{
     this.setState({
       playerTurn: "❌"
     })
-    this.oIndex(this.state.squares)
+    this.didWin()
   }
 
   // This gets run when ❌ makes a move
@@ -35,10 +35,10 @@ class App extends Component{
     this.setState({
       playerTurn: "⭕️"
     })
-    this.xIndex(this.state.squares)
+    this.didWin()
   }
 
-  didWin = (array) => {
+  didWin = () => {
     const { squares } = this.state
     const winningLines =
      [
@@ -60,31 +60,7 @@ class App extends Component{
             this.setState({theWinner: "the cat!"})
           }
         }
-      return(console.log(array))
-    }
-
-
-    xIndex = (array) => {
-      let newArray = []
-      
-      for(let i=0; i<array.length; i++){
-        if(array[i] === "❌" ) {
-          newArray.push(i)
-        }   
-      }
-      this.didWin(newArray)
-    }
-
-
-    oIndex = (array) => {
-      let newArray = []
-      
-      for(let i=0; i<array.length; i++){
-        if(array[i] === "⭕️" ) {
-          newArray.push(i)
-        }
-      }
-      this.didWin(newArray)
+  
     }
 
     restart = () => {
@@ -96,11 +72,10 @@ class App extends Component{
     }
     
 
-  
-  
+
+
+
   render(){
-
-
     return(
       <>
         <h1>Noughts-and-Crosses</h1>
@@ -115,19 +90,35 @@ class App extends Component{
               />
             )
           })}
+            </div>
 
-            {this.state.theWinner === null ? null : <h1>The winner is {this.state.theWinner}</h1> }
-            <button onClick={this.restart}>Click here to play again</button>
 
-        </div>
+            {/* input section */}
+
+                <input type="color" id="favcolor" name="favcolor" value="#ff0000"/>
+
+                <input type="text"/>
+                
+            {/* end input section */}            
+
+            <div>
+               { this.state.theWinner === null ?  <h2>It's {this.state.playerTurn}'s turn! </h2> : null}
+            </div>
+
+            
+
           {this.state.playerTurn === null ? 
           (<div id="playerSelect">
           <h1>Who's going first?</h1>
+
           <button onClick={this.xTurn}>❌</button>
           <button onClick={this.oTurn}>⭕️</button>
           </div>) :
           null
           }
+
+{this.state.theWinner === null ? null : <h1>The winner is {this.state.theWinner}</h1> }
+            <button onClick={this.restart} className="restart-btn">Click here to play again</button>
       </>
     )
   }
