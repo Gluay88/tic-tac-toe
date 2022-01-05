@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 
 class Square extends Component{
-  constructor(){
-    super()
-  }
 
   handleClick = () => {
    this.props.handleGamePlay(this.props.index)

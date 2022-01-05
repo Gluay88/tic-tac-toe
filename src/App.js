@@ -2,42 +2,45 @@ import React, { Component } from 'react'
 import Square from './components/Square'
 import './App.css'
 
+
 class App extends Component{
   constructor(props){
     super(props)
     this.state = {
       squares: [0, 0, 0, 0, 0, 0, 0, 0, 0],
       playerTurn: null,
-      xArray : []
-    
+      theWinner: null,
     }
   }
 
   handleGamePlay = (index) => {
-    const { squares, playerTurn } = this.state
-    if(squares[index] === 0 && playerTurn !== null){
+    const { squares, playerTurn, theWinner } = this.state
+    if(squares[index] === 0 && playerTurn !== null && theWinner === null){
       squares[index] = playerTurn
       playerTurn === "❌" ? this.oTurn() : this.xTurn()
     } 
     this.setState({squares: squares})
-    // this.xTurn(index)
   }
 
+  // This gets run when ⭕️ makes a move
   xTurn = () => {
     this.setState({
       playerTurn: "❌"
     })
-    this.xIndex(this.state.squares)
+    this.oIndex(this.state.squares)
   }
 
+  // This gets run when ❌ makes a move
   oTurn = () => {
     this.setState({
       playerTurn: "⭕️"
     })
+    this.xIndex(this.state.squares)
   }
 
-  didWin = () => {
-    let winningLines =
+  didWin = (array) => {
+    const { squares } = this.state
+    const winningLines =
      [
         [0,1,2],
         [3,4,5],
@@ -48,12 +51,19 @@ class App extends Component{
         [0,4,8],
         [2,4,6]
       ]
-      let xMoves = this.state.squares.filter((value, index) => {
-        return (index)
-      })
+        for (let i = 0; i < winningLines.length; i++) {
+          const [a, b, c] = winningLines[i]
+          if (squares[a] !== 0 && squares[a] === squares[b] && squares[a] === squares[c]){
+            this.setState({theWinner: squares[a]})
+            return console.log((`${squares[a]} is the winner`));
+          } else if (squares.includes(0) === false){
+            this.setState({theWinner: "the cat!"})
+          }
+        }
+      return(console.log(array))
     }
 
-   
+
     xIndex = (array) => {
       let newArray = []
       
@@ -62,8 +72,7 @@ class App extends Component{
           newArray.push(i)
         }   
       }
-      this.setState({xArray : newArray})
-     
+      this.didWin(newArray)
     }
 
 
@@ -74,38 +83,24 @@ class App extends Component{
         if(array[i] === "⭕️" ) {
           newArray.push(i)
         }
-        
       }
-      this.setState({oArray : newArray})
-     
+      this.didWin(newArray)
     }
 
-
+    restart = () => {
+      this.setState({
+        squares: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      playerTurn: null,
+      theWinner: null,
+      })
+    }
     
-  //   for(let winnerLine in newArray ) {
-      
-  //     newArray[winnerLine].filter((lines) => {
-  //     if(
-  //       squares[lines[0]] === "" || 
-  //       squares[lines[1]] === "" || 
-  //       squares[lines[2]] === "" 
-  //     )
-  //     {
-  //       //do this -- nothing -- maybe??
-  //     } 
-  //     else if (
-  //       squares[lines[0]] === squares[lines[1]] &&
-  //       squares[lines[1]] === squares[lines[2]]
-  //     ) {
-  //       // match.. winner wins??
-  //     }
-  //   })
-
-  //  }
 
   
   
   render(){
+
+
     return(
       <>
         <h1>Noughts-and-Crosses</h1>
@@ -121,14 +116,15 @@ class App extends Component{
             )
           })}
 
-          <h1>xMoves{this.state.xArray}</h1>
+            {this.state.theWinner === null ? null : <h1>The winner is {this.state.theWinner}</h1> }
+            <button onClick={this.restart}>Click here to play again</button>
 
         </div>
           {this.state.playerTurn === null ? 
           (<div id="playerSelect">
           <h1>Who's going first?</h1>
-          <button onClick={this.xTurn}>X</button>
-          <button onClick={this.oTurn}>0</button>
+          <button onClick={this.xTurn}>❌</button>
+          <button onClick={this.oTurn}>⭕️</button>
           </div>) :
           null
           }
