@@ -2,6 +2,8 @@
   height: 100px;
   width: 100px;
   border: 2px solid black;
+  font-size: 80px;
+  text-align: center;
 }
 
 .gameboard {
@@ -9,4 +11,8 @@
   width: 320px;
   flex-wrap: wrap;
   margin: 0 auto
+}
+
+#playerSelect {
+  text-align: center;
 }
