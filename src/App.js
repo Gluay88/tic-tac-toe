@@ -7,33 +7,48 @@ class App extends Component{
   constructor(props){
     super(props)
     this.state = {
-      squares: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      squares: ["👻", "👻", "👻", "👻", "👻", "👻", "👻", "👻", "👻"],
       playerTurn: null,
+      playerOne: "😜",
+      playerTwo: "👽",
       theWinner: null,
+      emojiHolder: ["☠️", "💩", "😈", "😺", "👽", "👀", '🐍', "🐣", "🦈"],
+      emoji: null
     }
   }
 
+  componentDidMount = () => {
+    let currentEmoji = this.state.emojiHolder[Math.floor(Math.random() * this.state.emojiHolder.length)]
+    this.setState({
+      emoji: currentEmoji,
+      squares: this.state.squares.map((value) => {
+        return (value = currentEmoji)
+      })
+    })
+  }
+
   handleGamePlay = (index) => {
-    const { squares, playerTurn, theWinner } = this.state
-    if(squares[index] === 0 && playerTurn !== null && theWinner === null){
+    const { squares, playerTurn, theWinner, emoji } = this.state
+    if(squares[index] === emoji && playerTurn !== null && theWinner === null){
       squares[index] = playerTurn
-      playerTurn === "❌" ? this.oTurn() : this.xTurn()
+      playerTurn === this.state.playerOne ?
+       this.playerTwoTurn() : this.playerOneTurn()
     } 
     this.setState({squares: squares})
   }
 
   // This gets run when ⭕️ makes a move
-  xTurn = () => {
+  playerOneTurn = () => {
     this.setState({
-      playerTurn: "❌"
+      playerTurn: this.state.playerOne
     })
     this.didWin()
   }
 
   // This gets run when ❌ makes a move
-  oTurn = () => {
+  playerTwoTurn = () => {
     this.setState({
-      playerTurn: "⭕️"
+      playerTurn: this.state.playerTwo
     })
     this.didWin()
   }
@@ -53,10 +68,10 @@ class App extends Component{
       ]
         for (let i = 0; i < winningLines.length; i++) {
           const [a, b, c] = winningLines[i]
-          if (squares[a] !== 0 && squares[a] === squares[b] && squares[a] === squares[c]){
+          if (squares[a] !== this.state.emoji && squares[a] === squares[b] && squares[a] === squares[c]){
             this.setState({theWinner: squares[a]})
             return console.log((`${squares[a]} is the winner`));
-          } else if (squares.includes(0) === false){
+          } else if (squares.includes(this.state.emoji) === false){
             this.setState({theWinner: "the cat!"})
           }
         }
@@ -65,14 +80,18 @@ class App extends Component{
 
     restart = () => {
       this.setState({
-        squares: [0, 0, 0, 0, 0, 0, 0, 0, 0],
       playerTurn: null,
       theWinner: null,
       })
+      this.componentDidMount()
     }
     
-
-
+    handleInputOne = (e) => {
+      this.setState({playerOne: e.target.value})
+    }
+    handleInputTwo = (e) => {
+      this.setState({playerTwo: e.target.value})
+    }
 
 
   render(){
@@ -82,7 +101,7 @@ class App extends Component{
         <div className="gameboard">
           {this.state.squares.map((value, index) => {
             return (
-              value=<Square 
+              <Square 
               value={value}
               index={index}
               key={index}
@@ -95,10 +114,28 @@ class App extends Component{
 
             {/* input section */}
 
-                <input type="color" id="favcolor" name="favcolor" value="#ff0000"/>
+        <div id="piece-select">
+        <div className="pieces">
+          <p>Player One piece</p>
 
-                <input type="text"/>
-                
+          {this.state.playerTurn === null ?
+            <input
+            type="text"
+            onChange={this.handleInputOne}
+            value={this.state.playerOne}
+          /> : null}
+          </div>
+          <div className="pieces">
+          <p>Player Two piece</p>
+
+          {this.state.playerTurn === null ?
+            <input
+            type="text"
+            onChange={this.handleInputTwo}
+            value={this.state.playerTwo}
+          /> : null}
+          </div>
+          </div>      
             {/* end input section */}            
 
             <div>
@@ -111,14 +148,15 @@ class App extends Component{
           (<div id="playerSelect">
           <h1>Who's going first?</h1>
 
-          <button onClick={this.xTurn}>❌</button>
-          <button onClick={this.oTurn}>⭕️</button>
+          <button onClick={this.playerOneTurn} className="playerBtn">{this.state.playerOne}</button>
+          <button onClick={this.playerTwoTurn} className="playerBtn">{this.state.playerTwo}</button>
           </div>) :
           null
           }
 
 {this.state.theWinner === null ? null : <h1>The winner is {this.state.theWinner}</h1> }
             <button onClick={this.restart} className="restart-btn">Click here to play again</button>
+            <p>Warning: You cannot win if you choose the emoji that is on the board.</p>
       </>
     )
   }

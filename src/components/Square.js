@@ -11,6 +11,7 @@ class Square extends Component{
       <>
         <div className="square"
         onClick={this.handleClick}
+        style={{color:this.props.value}}
         >
           {this.props.value}
       </div>

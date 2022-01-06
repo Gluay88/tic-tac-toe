@@ -1,5 +1,6 @@
 body {
   text-align: center;
+  background-color: rgb(222, 222, 222);
 }
 .square{
   height: 100px;
@@ -26,4 +27,23 @@ h1 {
 .restart-btn {
   margin: 25px 0 0 0;
   padding:10px;
+  background-color: darkorange;
+}
+
+.playerBtn {
+  margin-left: 25px;
+  margin-right: 25px;
+  font-size: 40px;
+}
+
+#piece-select {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+.pieces {
+margin-left: 10px;
+margin-right: 10px;
 }
