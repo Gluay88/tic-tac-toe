@@ -12,7 +12,7 @@ class App extends Component{
       playerOne: "😜",
       playerTwo: "👽",
       theWinner: null,
-      emojiHolder: ["☠️", "💩", "😈", "😺", "👽", "👀", '🐍', "🐣", "🦈"],
+      emojiHolder: ["🌗", "💩", "😈", "😺", "💎", "👀", '🐍', "🐣", "🦈", "🔥", "🍕", "🍥", "🎭", "🛸", "💝", "❤️‍🔥", "🆘", "☢", "🇦🇺", "☣"],
       emoji: null
     }
   }
@@ -116,20 +116,22 @@ class App extends Component{
 
         <div id="piece-select">
         <div className="pieces">
-          <p>Player One piece</p>
+          <p className="players">Player One piece</p>
 
           {this.state.playerTurn === null ?
             <input
+            className="pieceInputs"
             type="text"
             onChange={this.handleInputOne}
             value={this.state.playerOne}
           /> : null}
           </div>
           <div className="pieces">
-          <p>Player Two piece</p>
+          <p className="players">Player Two piece</p>
 
           {this.state.playerTurn === null ?
             <input
+            className="pieceInputs"
             type="text"
             onChange={this.handleInputTwo}
             value={this.state.playerTwo}
@@ -139,7 +141,7 @@ class App extends Component{
             {/* end input section */}            
 
             <div>
-               { this.state.theWinner === null ?  <h2>It's {this.state.playerTurn}'s turn! </h2> : null}
+               { (this.state.theWinner === null && this.state.playerTurn !== null)?  <h2>It's {this.state.playerTurn}'s turn! </h2> : null}
             </div>
 
             
