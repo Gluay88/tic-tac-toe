@@ -1,6 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Underdog&display=swap');
+
+
 body {
+  font-family: 'Underdog', cursive;
   text-align: center;
   background-color: rgb(222, 222, 222);
+  background-image: url(https://images.unsplash.com/photo-1553570739-330b8db8a925?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80;);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .square{
   height: 100px;
@@ -25,15 +33,19 @@ h1 {
 }
 
 .restart-btn {
+  font-family: 'Underdog', cursive;
   margin: 25px 0 0 0;
   padding:10px;
+  border: none;
   background-color: darkorange;
+  border-radius: 3px;
+  font-size: 25px;
 }
 
 .playerBtn {
   margin-left: 25px;
   margin-right: 25px;
-  font-size: 40px;
+  font-size: 65px;
 }
 
 #piece-select {
@@ -46,4 +58,14 @@ h1 {
 .pieces {
 margin-left: 10px;
 margin-right: 10px;
+}
+
+.pieceInputs {
+  width: 40px;
+  font-size: 40px;
+  align-content: center;
+}
+
+.players {
+  font-size: 25px;
 }
